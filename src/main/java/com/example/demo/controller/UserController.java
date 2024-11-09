@@ -10,20 +10,16 @@ import com.example.demo.utils.ThreadLocalUtil;
 
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -34,6 +30,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CommenJwt commenJwt;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/register")
     public Result<String> register(@Pattern(regexp = "\\S{3,10}$") String username,
@@ -64,6 +63,11 @@ public class UserController {
             claims.put("username", loginUser.getUsername());
             // String token = JwtUtil.genToken(claims);
             String token2 = commenJwt.generateToken(username, claims);
+
+            // 将token存入redis，设置过期时间为24小时
+            ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+            operations.set(token2, token2, 24, TimeUnit.HOURS);
+
             return Result.success(token2);
         }
         return Result.error("密码错误");
@@ -92,7 +96,7 @@ public class UserController {
     }
 
     @PatchMapping("/updatePwd")
-    public <T> Result<T> updatePwd(@RequestBody Map<String, String> params){
+    public <T> Result<T> updatePwd(@RequestBody Map<String, String> params, @RequestHeader("Authorization") String token){
         String oldPwd = params.get("oldPwd");
         String newPwd = params.get("newPwd");
         String rePwd = params.get("rePwd");
@@ -118,6 +122,10 @@ public class UserController {
         }
 
         userService.updatePwd(newPwd);
+
+        // 密码更改之后, 将此时用户登陆的token删除
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        operations.getOperations().delete(token);
         return Result.success();
     }
 }

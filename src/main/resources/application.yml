@@ -6,6 +6,10 @@ spring:
     password: Marine1235689412
   application:
     name: MarineSpring
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 server:
   port: 8080
@@ -15,5 +19,5 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 
 jwt:
-  secret: ${JwtSecret}
-  expiration: 86400000
+  secret: ${JwtSecret}86400
+  expiration: 86400

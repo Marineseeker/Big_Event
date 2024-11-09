@@ -15,5 +15,5 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 
 jwt:
-  secret: Marine1235689412_SecretKey_ExtraCharacters!
+  secret: ${JwtSecret}
   expiration: 86400000

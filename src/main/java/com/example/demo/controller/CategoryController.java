@@ -50,6 +50,9 @@ public class CategoryController {
 
     @DeleteMapping
     public <T> Result<T> delete(int id){
+        if (categoryService.findById(id) == null){
+            return Result.error("Category not found");
+        }
         categoryService.delete(id);
         return Result.success();
     }

@@ -4,7 +4,6 @@ import com.example.demo.mapper.ArticleMapper;
 
 import com.example.demo.pojo.Article;
 import com.example.demo.pojo.PageBean;
-import com.example.demo.pojo.Result;
 import com.example.demo.service.ArticleService;
 import com.example.demo.utils.UserUtil;
 import com.github.pagehelper.Page;

@@ -42,7 +42,7 @@ public class ArticleController {
     }
 
     @GetMapping("/detail")
-    public <T> Result<Article> detail(int id){
+    public Result<Article> detail(int id){
         Article article = articleService.findById(id);
         if (article == null){
             return Result.error("Article not found");

@@ -23,7 +23,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public <T> Result<List<Category>> list(){
+    public Result<List<Category>> list(){
         List<Category> categories = categoryService.list();
         return Result.success(categories);  
     }
@@ -40,7 +40,7 @@ public class CategoryController {
     }
 
     @GetMapping("/detail")
-    public <T> Result<Category> detail(int id){
+    public Result<Category> detail(int id){
         Category category = categoryService.findById(id);
         if (category == null){
             return Result.error("Category not found");

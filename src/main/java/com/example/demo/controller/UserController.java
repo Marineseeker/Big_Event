@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.log;
 import com.example.demo.pojo.Result;
 import com.example.demo.pojo.User;
 import com.example.demo.service.UserService;
@@ -47,6 +48,7 @@ public class UserController {
         }
     }
 
+    @log("用户登录")
     @PostMapping("/login")
     public Result<String> login(@Pattern(regexp = "\\S{3,10}$") String username,
                                 @Pattern(regexp = "\\S{5,16}$") String password){
@@ -73,6 +75,7 @@ public class UserController {
         return Result.error("密码错误");
     }
 
+    @log("登录用户详细信息")
     @GetMapping("/userInfo")
     public Result<User> userInfo(/*@RequestHeader("Authorization") String token*/){
         /*Map<String, Object> map = JwtUtil.parseToken(token);
@@ -82,13 +85,15 @@ public class UserController {
         User user = userService.findByUsername(username);
         return Result.success(user);
     }
-    
+
+    @log("更新用户信息")
     @PutMapping("/update")
     public <T> Result<T> update(@RequestBody @Validated User user){
         userService.update(user);
         return Result.success();
     }
-    
+
+    @log("更新用户头像")
     @PatchMapping("/updateAvatar")
     public <T> Result<T> updateAvatar(@RequestParam String avatarUrl){
         userService.updateAvatar(avatarUrl);

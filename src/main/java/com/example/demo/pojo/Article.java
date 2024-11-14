@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class Article {
     @NotNull(groups = Update.class)
     private Integer id;//主键ID
+    
     @NotEmpty(message = "文章标题不能为空", groups = Update.class)
     @Pattern(
             regexp = "^[\\u4e00-龥a-zA-Z0-9《》【】「」『』（）()\\s]{2,50}$",
@@ -21,8 +22,10 @@ public class Article {
     )
     @Length(min = 2, max = 50, message = "标题长度必须在2-50个字符之间")
     private String title;//文章标题
+
     @NotEmpty(groups = Update.class)
     private String content;//文章内容
+
     @NotEmpty(groups = Update.class)
     @URL
     private String coverImg;//封面图像
@@ -30,6 +33,7 @@ public class Article {
     @NotEmpty(message = "发布状态不能为空", groups = Update.class)
     @StateConstraint // 使用自定义State注解
     private String state;//发布状态 已发布|草稿
+
     @NotNull(groups = Update.class)
     private Integer categoryId;//文章分类id
 

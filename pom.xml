@@ -154,7 +154,14 @@
 			<artifactId>spring-boot-starter-redis</artifactId>
 			<version>1.4.7.RELEASE</version>
 		</dependency>
-<!--		&lt;!&ndash;dependency for UploadImgDemo&ndash;&gt;-->
+
+		<!--AOP-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!--		&lt;!&ndash;dependency for UploadImgDemo&ndash;&gt;-->
 <!--		<dependency>-->
 <!--			<groupId>com.aliyun</groupId>-->
 <!--			<artifactId>aliyun-java-sdk-core</artifactId>-->

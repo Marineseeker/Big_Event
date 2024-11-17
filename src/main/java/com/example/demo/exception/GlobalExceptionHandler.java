@@ -17,6 +17,7 @@ public class GlobalExceptionHandler {
 
     // 捕获参数验证失败的异常
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    // 响应码设置为400(BAD REQUEST)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public <T> Result<T> handleValidationException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();

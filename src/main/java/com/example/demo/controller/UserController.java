@@ -35,6 +35,7 @@ public class UserController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @log("用户注册")
     @PostMapping("/register")
     public Result<String> register(@Pattern(regexp = "\\S{3,10}$") String username,
                            @Pattern(regexp = "\\S{5,16}$") String password) {

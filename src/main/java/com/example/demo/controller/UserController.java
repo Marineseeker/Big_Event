@@ -37,8 +37,18 @@ public class UserController {
 
     @log("用户注册")
     @PostMapping("/register")
-    public Result<String> register(@Pattern(regexp = "\\S{3,10}$") String username,
-                           @Pattern(regexp = "\\S{5,16}$") String password) {
+    public Result<String> register(@RequestBody Map<String, String> registerData) {
+        @Pattern(regexp = "\\S{3,10}$", message = "用户名长度为3到10个字符，不能包含空格")
+        String username = registerData.get("username");
+        @Pattern(regexp = "\\S{5,16}$", message = "密码长度为5到16个字符，不能包含空格")
+        String password = registerData.get("password");
+        @Pattern(regexp = "\\S{5,16}$", message = "密码长度为5到16个字符，不能包含空格")
+        String rePassword = registerData.get("rePassword");
+
+        if (!password.equals(rePassword)) {
+            return Result.error("两次密码不一致");
+        }
+
         User u = userService.findByUsername(username);
         if (u == null) {
             userService.register(username, password);
@@ -51,8 +61,12 @@ public class UserController {
 
     @log("用户登录")
     @PostMapping("/login")
-    public Result<String> login(@Pattern(regexp = "\\S{3,10}$") String username,
-                                @Pattern(regexp = "\\S{5,16}$") String password){
+    public Result<String> login(@RequestBody Map<String, String> registerData) {
+        @Pattern(regexp = "\\S{3,10}$", message = "用户名长度为3到10个字符，不能包含空格")
+        String username = registerData.get("username");
+        @Pattern(regexp = "\\S{5,16}$", message = "密码长度为5到16个字符，不能包含空格")
+        String password = registerData.get("password");
+
         User loginUser = userService.findByUsername(username);
 
         if(loginUser == null){

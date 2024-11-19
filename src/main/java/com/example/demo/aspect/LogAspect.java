@@ -1,6 +1,7 @@
 package com.example.demo.aspect;
 
 import com.example.demo.annotation.log;
+import com.example.demo.pojo.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -52,6 +53,12 @@ public class LogAspect {
         long endTime = System.currentTimeMillis();
         logger.info("方法 {} 执行完成 - 耗时: {} ms", methodName, (endTime - startTime));
 
+        if (result instanceof Result<?> resultObj){
+            if (resultObj.getCode() == 1){
+                logger.error("方法 {} 返回错误 - 错误码: {}, 错误信息: {}",
+                        methodName, resultObj.getCode(), resultObj.getMessage());
+            }
+        }
         return result;
     }
 }

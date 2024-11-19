@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+import com.example.demo.annotation.log;
 import com.example.demo.pojo.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -16,9 +17,11 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     // 捕获参数验证失败的异常
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    // 响应码设置为400(BAD REQUEST)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    // 响应码设置为400(BAD REQUEST)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @log("参数验证失败")
     public <T> Result<T> handleValidationException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getFieldErrors().forEach(error -> 

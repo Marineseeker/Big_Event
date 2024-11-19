@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.annotation.log;
+import com.example.demo.dto.request.LoginRequest;
+import com.example.demo.dto.request.RegisterRequest;
 import com.example.demo.pojo.Result;
 import com.example.demo.pojo.User;
 import com.example.demo.service.UserService;
@@ -9,6 +11,7 @@ import com.example.demo.utils.CommenJwt;
 import com.example.demo.utils.Md5Util;
 import com.example.demo.utils.ThreadLocalUtil;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -37,13 +40,11 @@ public class UserController {
 
     @log("用户注册")
     @PostMapping("/register")
-    public Result<String> register(@RequestBody Map<String, String> registerData) {
-        @Pattern(regexp = "\\S{3,10}$", message = "用户名长度为3到10个字符，不能包含空格")
-        String username = registerData.get("username");
-        @Pattern(regexp = "\\S{5,16}$", message = "密码长度为5到16个字符，不能包含空格")
-        String password = registerData.get("password");
-        @Pattern(regexp = "\\S{5,16}$", message = "密码长度为5到16个字符，不能包含空格")
-        String rePassword = registerData.get("rePassword");
+    public Result<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
+        String username = registerRequest.getUsername();
+        String password = registerRequest.getPassword();
+        String rePassword = registerRequest.getRePassword();
+
 
         if (!password.equals(rePassword)) {
             return Result.error("两次密码不一致");
@@ -61,11 +62,9 @@ public class UserController {
 
     @log("用户登录")
     @PostMapping("/login")
-    public Result<String> login(@RequestBody Map<String, String> registerData) {
-        @Pattern(regexp = "\\S{3,10}$", message = "用户名长度为3到10个字符，不能包含空格")
-        String username = registerData.get("username");
-        @Pattern(regexp = "\\S{5,16}$", message = "密码长度为5到16个字符，不能包含空格")
-        String password = registerData.get("password");
+    public Result<String> login(@Valid @RequestBody LoginRequest loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
 
         User loginUser = userService.findByUsername(username);
 

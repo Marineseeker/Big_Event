@@ -19,5 +19,5 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 
 jwt:
-  secret: ${JwtSecret}86400
-  expiration: 86400
+  secret: ${JwtSecret}
+  expiration: 3600000

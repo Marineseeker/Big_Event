@@ -17,18 +17,18 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     // 捕获参数验证失败的异常
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    // 响应码设置为400(BAD REQUEST)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @log("参数验证失败")
-    public <T> Result<T> handleValidationException(MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error -> 
-            errors.put(error.getField(), error.getDefaultMessage())
-        );
-        return Result.error("参数验证失败");
-    }
+//
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+////    // 响应码设置为400(BAD REQUEST)
+////    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @log("参数验证失败")
+//    public <T> Result<T> handleValidationException(MethodArgumentNotValidException e) {
+//        Map<String, String> errors = new HashMap<>();
+//        e.getBindingResult().getFieldErrors().forEach(error ->
+//            errors.put(error.getField(), error.getDefaultMessage())
+//        );
+//        return Result.error("参数验证失败");
+//    }
 
     // 捕获 SQL 约束异常，比如重复键、非空约束等
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

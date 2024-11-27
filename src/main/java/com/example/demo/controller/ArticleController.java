@@ -25,7 +25,7 @@ public class ArticleController {
     private CategoryMapper categoryMapper;
 
     @PostMapping
-    public <T> Result<T> add(@RequestBody @Validated Article article){
+    public <T> Result<T> add(@RequestBody @Validated(Article.Update.class) Article article){
         articleService.add(article);
         return Result.success();
     }

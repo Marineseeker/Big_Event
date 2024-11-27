@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class Article {
-    @NotNull(groups = Update.class)
     private Integer id;//主键ID
     
     @NotEmpty(message = "文章标题不能为空", groups = Update.class)

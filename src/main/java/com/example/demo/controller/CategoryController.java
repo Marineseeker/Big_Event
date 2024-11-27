@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.log;
 import com.example.demo.pojo.Category;
 import com.example.demo.pojo.Result;
 import com.example.demo.service.CategoryService;
@@ -22,6 +23,7 @@ public class CategoryController {
         return Result.success();
     }
 
+    @log
     @GetMapping
     public Result<List<Category>> list(){
         List<Category> categories = categoryService.list();

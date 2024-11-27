@@ -30,6 +30,7 @@ public class CategoryController {
         return Result.success(categories);  
     }
 
+    @log
     @PutMapping
                                             //update需要文章id, 所以使用包含id的Update.class
     public <T> Result<T> update(@RequestBody @Validated(Category.Update.class) Category category){
@@ -40,7 +41,7 @@ public class CategoryController {
         categoryService.update(category);
         return Result.success();
     }
-
+    @log
     @GetMapping("/detail")
     public Result<Category> detail(int id){
         Category category = categoryService.findById(id);
@@ -49,7 +50,7 @@ public class CategoryController {
         }
         return Result.success(category);
     }
-
+    @log
     @DeleteMapping
     public <T> Result<T> delete(int id){
         if (categoryService.findById(id) == null){

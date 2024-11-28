@@ -5,12 +5,14 @@ import com.example.demo.utils.AliOssUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.demo.annotation.log;
 
 import java.util.UUID;
 
 @RestController
 public class FileUploadController {
 
+    @log
     @PostMapping("/upload")
     public Result<String> upload(MultipartFile file) throws Exception {
 

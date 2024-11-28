@@ -24,7 +24,6 @@ public class Result<T> {
         return new Result<>(0, "操作成功", null);
     }
 
-    public static <T> Result<T> error(String message) {
-        return new Result<>(1, message, null);
-    }
+    // 返回带有详细错误信息的响应
+    public static <T> Result<T> error(String message) { return new Result<>(1, message, null); }
 }

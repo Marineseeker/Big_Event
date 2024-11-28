@@ -10,25 +10,29 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    /**
+     * 捕获参数验证失败的异常
+     */
+    @log
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public <T> Result<T> handleValidationException(MethodArgumentNotValidException e) {
+        // 获取所有字段错误信息
+        List<String> errorMessages = e.getBindingResult().getFieldErrors()
+                .stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.toList());
 
-    // 捕获参数验证失败的异常
-//
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-////    // 响应码设置为400(BAD REQUEST)
-////    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @log("参数验证失败")
-//    public <T> Result<T> handleValidationException(MethodArgumentNotValidException e) {
-//        Map<String, String> errors = new HashMap<>();
-//        e.getBindingResult().getFieldErrors().forEach(error ->
-//            errors.put(error.getField(), error.getDefaultMessage())
-//        );
-//        return Result.error("参数验证失败");
-//    }
+        // 将错误信息拼接成一个字符串
+        String errorMessage = String.join("; ", errorMessages);
+
+        // 返回拼接后的错误信息
+        return Result.error(errorMessage);
+    }
 
     // 捕获 SQL 约束异常，比如重复键、非空约束等
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

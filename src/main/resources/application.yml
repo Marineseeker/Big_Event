@@ -21,3 +21,17 @@ mybatis-plus:
 jwt:
   secret: ${JwtSecret}
   expiration: 3600000
+
+spring.mail:
+  host: smtp.qq.com
+  port: 465
+  username: 2716647396@qq.com
+  password: vtulxddqocfqdeej
+  protocol: smtps
+  default-encoding: UTF-8
+  properties:
+    mail:
+      smtp:
+        ssl:
+          enable: false
+          required: false

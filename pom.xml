@@ -200,6 +200,10 @@
 <!--			<systemPath>${project.basedir}/src/main/resources/aliyun-java-vod-upload-1.4.15.jar</systemPath>-->
 <!--		</dependency>-->
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 
 	</dependencies>
 
